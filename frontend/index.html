@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Campus Placement Tracking portal for students and placement administrators.">
+  <title>Campus Placement Tracking</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#"><span class="brand-mark">CP</span><span>Campus<span class="brand-light">Track</span><small>PLACEMENT PORTAL</small></span></a>
+    <div class="top-actions"><span id="user-label" class="user-label"></span><button id="logout-btn" class="btn btn-quiet hidden">Log out</button></div>
+  </header>
+  <main class="page">
+    <section id="auth-view" class="auth-layout">
+      <div class="hero">
+        <p class="eyebrow">YOUR CAREER JOURNEY, ORGANIZED</p>
+        <h1>Make your next<br><span>move count.</span></h1>
+        <p class="hero-copy">Track opportunities, monitor application progress, and keep your campus placement journey in one clear place.</p>
+        <div class="hero-points"><div><b>01</b><span>Discover opportunities</span></div><div><b>02</b><span>Track every application</span></div><div><b>03</b><span>Stay placement-ready</span></div></div>
+      </div>
+      <div class="auth-card">
+        <div class="auth-tabs"><button class="tab active" data-tab="login">Sign in</button><button class="tab" data-tab="register">Create account</button></div>
+        <div id="auth-message" class="notice hidden" role="status"></div>
+        <form id="login-form" class="auth-form">
+          <h2>Welcome back</h2><p class="muted">Sign in to continue to your dashboard.</p>
+          <label>Email address<input type="email" name="email" placeholder="you@college.edu" required autocomplete="email"></label>
+          <label>Password<input type="password" name="password" placeholder="Enter your password" required minlength="8" autocomplete="current-password"></label>
+          <button class="btn btn-primary full" type="submit">Sign in <span>→</span></button>
+        </form>
+        <form id="register-form" class="auth-form hidden">
+          <h2>Create your account</h2><p class="muted">Use your college email to get started.</p>
+          <label>Full name<input name="name" placeholder="Your full name" required minlength="2" maxlength="80"></label>
+          <label>Email address<input type="email" name="email" placeholder="you@college.edu" required autocomplete="email"></label>
+          <label>Student roll number<input name="roll_number" placeholder="e.g. 24CSE001" required minlength="2" maxlength="30"></label>
+          <label>Branch
+            <select name="branch" required><option value="">Select your branch</option><option>CSE</option><option>CSE-AI</option><option>CSE-Data Science</option><option>CSE-Cyber Security</option><option>ECE</option><option>EEE</option><option>IT</option><option>Mechanical</option><option>Civil</option><option>Other</option></select>
+          </label>
+          <label>Graduation year<input type="number" name="graduation_year" min="2026" max="2040" value="2028" required></label>
+          <label>Password<input type="password" name="password" placeholder="At least 8 characters" required minlength="8" autocomplete="new-password"></label>
+          <button class="btn btn-primary full" type="submit">Create account <span>→</span></button>
+          <p class="tiny">Student accounts are created with student access. Admin access must be assigned by a trusted database administrator.</p>
+        </form>
+      </div>
+    </section>
+
+    <section id="app-view" class="hidden">
+      <div class="welcome-row"><div><p class="eyebrow">PLACEMENT OVERVIEW</p><h1 id="welcome-title">Your dashboard</h1><p class="muted" id="welcome-subtitle">Keep your applications moving.</p></div><button id="refresh-btn" class="btn btn-outline">↻ Refresh</button></div>
+      <div class="stats-grid">
+        <article class="stat-card"><span class="stat-icon violet">↗</span><span class="stat-label">Applications</span><strong id="stat-total">0</strong><small>All submitted applications</small></article>
+        <article class="stat-card"><span class="stat-icon blue">◷</span><span class="stat-label">In progress</span><strong id="stat-progress">0</strong><small>Applied or shortlisted</small></article>
+        <article class="stat-card"><span class="stat-icon green">✓</span><span class="stat-label">Offers received</span><strong id="stat-offers">0</strong><small>Congratulations on your progress</small></article>
+        <article class="stat-card"><span class="stat-icon amber">⌕</span><span class="stat-label">Open opportunities</span><strong id="stat-open">0</strong><small>Currently accepting applications</small></article>
+      </div>
+      <div id="admin-panel" class="panel hidden">
+        <div class="panel-heading"><div><h2>Placement administrator</h2><p class="muted">Add opportunities and review student application progress.</p></div></div>
+        <form id="job-form" class="job-form">
+          <label>Company name<input name="company_name" required maxlength="100" placeholder="e.g. Example Technologies"></label>
+          <label>Job role<input name="role" required maxlength="120" placeholder="e.g. Graduate Engineer Trainee"></label>
+          <label>Package (LPA)<input name="package_lpa" type="number" min="0" max="1000" step="0.1" placeholder="e.g. 6.5"></label>
+          <label>Eligible branches<input name="eligible_branches" maxlength="250" placeholder="CSE, IT, ECE"></label>
+          <label>Minimum CGPA<input name="min_cgpa" type="number" min="0" max="10" step="0.1" placeholder="e.g. 7"></label>
+          <label>Last date<input name="deadline" type="date"></label>
+          <label class="wide">Job description<textarea name="description" rows="2" maxlength="2000" placeholder="Role details, skills and selection process"></textarea></label>
+          <button class="btn btn-primary" type="submit">+ Add opportunity</button>
+        </form>
+        <div id="admin-message" class="notice hidden" role="status"></div>
+      </div>
+      <div class="content-grid">
+        <section class="panel opportunities-panel">
+          <div class="panel-heading"><div><h2>Placement opportunities</h2><p class="muted">Explore roles and apply when you're ready.</p></div><span id="jobs-count" class="count-pill">0 roles</span></div>
+          <div class="filter-row"><input id="job-search" type="search" placeholder="Search company or role…" aria-label="Search opportunities"><select id="branch-filter" aria-label="Filter by branch"><option value="">All branches</option><option>CSE</option><option>CSE-AI</option><option>CSE-Data Science</option><option>CSE-Cyber Security</option><option>ECE</option><option>EEE</option><option>IT</option><option>Mechanical</option><option>Civil</option><option>Other</option></select></div>
+          <div id="jobs-list" class="jobs-list"><div class="loading">Loading opportunities…</div></div>
+        </section>
+        <section class="panel applications-panel">
+          <div class="panel-heading"><div><h2 id="applications-heading">My applications</h2><p class="muted">Follow each application from submitted to outcome.</p></div></div>
+          <div class="filter-row"><select id="status-filter" aria-label="Filter applications by status"><option value="">All statuses</option><option>Applied</option><option>Shortlisted</option><option>Interview</option><option>Selected</option><option>Rejected</option><option>Withdrawn</option></select></div>
+          <div id="applications-list" class="applications-list"><div class="loading">Loading applications…</div></div>
+        </section>
+      </div>
+      <div id="admin-applications-panel" class="panel hidden">
+        <div class="panel-heading"><div><h2>All student applications</h2><p class="muted">Update status after each selection round.</p></div></div>
+        <div class="table-wrap"><table><thead><tr><th>Student</th><th>Company / role</th><th>Applied on</th><th>Status</th><th>Update</th></tr></thead><tbody id="all-applications-body"></tbody></table></div>
+      </div>
+    </section>
+    <div id="global-message" class="global-message hidden" role="status"></div>
+  </main>
+  <footer><span>CampusTrack</span><span>Campus Placement Tracking · Student project</span></footer>
+  <script src="app.js"></script>
+</body>
+</html>
